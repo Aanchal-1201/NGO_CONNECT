@@ -1,0 +1,116 @@
+/* ===== NGO SIDEBAR ===== */
+
+.ngo-sidebar {
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
+  background: #ffffff;
+  padding: 30px 20px;
+  border-right: 1px solid #eaeaea;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== LOGO SECTION ===== */
+
+.ngo-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.ngo-logo i {
+  font-size: 26px;
+  color: #0d6efd;
+}
+
+.ngo-logo h5 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.ngo-logo span {
+  font-size: 13px;
+  color: #888;
+}
+
+/* ===== NAVIGATION ===== */
+
+.ngo-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ngo-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #444;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+/* Hover */
+.ngo-sidebar nav a:hover {
+  background: #f1f5ff;
+  color: #0d6efd;
+}
+
+/* Active Link */
+.ngo-sidebar nav a.active {
+  background: #e7f1ff;
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* Icon style */
+.ngo-sidebar nav a i {
+  font-size: 15px;
+  width: 18px;
+}
+
+/* Optional subtle left indicator */
+.ngo-sidebar nav a.active {
+  border-left: 3px solid #0d6efd;
+  padding-left: 11px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 992px) {
+  .ngo-sidebar {
+    display: none;
+  }
+}
+
+.notification-link {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  right: 15px;
+  top: 8px;
+  background: #dc3545;
+  color: white;
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 50%;
+}
+
+.ngo-sidebar nav a.logout-link {
+  color: #dc3545;
+}
+
+.ngo-sidebar nav a.logout-link:hover {
+  background: #ffe5e5;
+  color: #dc3545;
+}

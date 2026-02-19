@@ -1,0 +1,107 @@
+/* Remove default browser margin */
+body {
+  margin: 0;
+}
+
+/* AUTH WRAPPER */
+.auth-wrapper {
+  background: linear-gradient(to right, #e9eef3, #dde5ec);
+  padding: 60px 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* AUTH CARD */
+.auth-card {
+  width: 420px;
+  max-width: 95%;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+}
+
+/* TABS */
+.tab-btn {
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  padding: 10px 20px;
+  color: #777;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  color: #0d6efd;
+  border-bottom: 3px solid #0d6efd;
+}
+
+/* BUTTON */
+.auth-btn {
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* ROLE SELECTOR */
+.role-selector {
+  display: flex;
+  justify-content: space-between;
+}
+
+.role-btn {
+  flex: 1;
+  margin: 0 5px;
+  padding: 8px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.role-btn.active {
+  background: #0d6efd;
+  color: white;
+  border: none;
+}
+
+/* PASSWORD STRENGTH BAR */
+.password-strength {
+  height: 6px;
+  background: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.strength-0 { width: 0%; }
+.strength-1 { width: 25%; background: red; }
+.strength-2 { width: 50%; background: orange; }
+.strength-3 { width: 75%; background: #ffc107; }
+.strength-4 { width: 100%; background: green; }
+
+/* EYE ICON */
+.eye-icon {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  cursor: pointer;
+  color: #777;
+  font-size: 14px;
+}
+
+.eye-icon:hover {
+  color: #0d6efd;
+}
+
+/* MOBILE FIX */
+@media (max-width: 576px) {
+  .auth-card {
+    padding: 25px;
+  }
+}

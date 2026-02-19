@@ -1,0 +1,83 @@
+.admin-sidebar {
+  width: 240px;
+  background: #ffffff;
+  height: 100vh;
+  padding: 25px 15px;
+  border-right: 1px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo-icon {
+  font-size: 22px;
+  color: #0d6efd;
+}
+
+.sidebar-header h5 {
+  margin: 5px 0 2px;
+  font-weight: 700;
+}
+
+.admin-label {
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 1px;
+}
+
+/* MENU */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 8px;
+}
+
+/* LINK STYLE */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.sidebar-link i {
+  width: 18px;
+}
+
+/* HOVER */
+.sidebar-link:hover {
+  background: #f0f4ff;
+  color: #0d6efd;
+}
+
+/* ACTIVE */
+.sidebar-link.active {
+  background: linear-gradient(135deg, #0d6efd, #4e73df);
+  color: white;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+
+/* LOGOUT STYLE */
+.logout-link {
+  color: #dc3545;
+}
+
+.logout-link:hover {
+  background: #ffe5e5;
+}

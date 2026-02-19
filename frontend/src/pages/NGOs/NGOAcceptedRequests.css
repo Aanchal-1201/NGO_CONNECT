@@ -1,0 +1,35 @@
+.accepted-container {
+  padding: 20px;
+}
+
+.accepted-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.accepted-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+  transition: 0.3s;
+}
+
+.accepted-card:hover {
+  transform: translateY(-4px);
+}
+
+.complete-btn {
+  margin-top: 10px;
+  background: #198754;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.complete-btn:hover {
+  background: #157347;
+}

@@ -1,0 +1,97 @@
+/* ===== NGO HEADER ===== */
+
+.ngo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Left Section */
+.header-left h3 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.header-left p {
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+/* ===== ACTIONS ===== */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Search Box */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  transition: 0.2s;
+}
+
+.search-wrapper i {
+  color: #999;
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.search-wrapper input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 180px;
+}
+
+.search-wrapper:focus-within {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+}
+
+/* Button */
+.new-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0d6efd, #0056d2);
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.new-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(13,110,253,0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .ngo-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-wrapper input {
+    width: 120px;
+  }
+}

@@ -1,0 +1,43 @@
+.admin-layout {
+  display: flex;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 25px;
+}
+
+/* TABLE CARD */
+.table-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+/* STATUS BADGE */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #e6f4ea;
+  color: #198754;
+}
+
+.status-badge.inactive {
+  background: #fdecea;
+  color: #dc3545;
+}
+
+/* TOGGLE BUTTON */
+.toggle-btn {
+  border-radius: 20px;
+  padding: 4px 12px;
+}

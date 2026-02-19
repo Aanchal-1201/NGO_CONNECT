@@ -1,0 +1,139 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6f9;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* ================= STAT CARDS ================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  transition: 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h6 {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.stat-card h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stat-card i {
+  font-size: 30px;
+  opacity: 0.8;
+}
+
+/* Card Colors */
+.blue i { color: #0d6efd; }
+.purple i { color: #6f42c1; }
+.orange i { color: #fd7e14; }
+.green i { color: #198754; }
+
+/* ================= TABLE CARD ================= */
+.table-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.table-card h5 {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* ================= MODERN TABLE ================= */
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modern-table thead {
+  background: #f8f9fa;
+}
+
+.modern-table th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+.modern-table td {
+  padding: 14px;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.modern-table tbody tr:hover {
+  background: #f9fbff;
+  transition: 0.2s;
+}
+
+/* ================= STATUS BADGE ================= */
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #e6f4ea;
+  color: #198754;
+}
+
+.status-badge.inactive {
+  background: #fdecea;
+  color: #dc3545;
+}
+
+/* ================= BUTTON ================= */
+.toggle-btn {
+  border: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #0d6efd;
+  color: white;
+  transition: 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background: #084298;
+}
+
+/* ================= EMPTY STATE ================= */
+.empty-state {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}

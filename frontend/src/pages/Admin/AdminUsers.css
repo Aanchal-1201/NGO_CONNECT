@@ -1,0 +1,100 @@
+/* Layout */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6f9;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Card */
+.users-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+/* Heading */
+.users-card h5 {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Table */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table thead {
+  background: #f8f9fa;
+}
+
+.users-table th {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+.users-table td {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f1f1;
+  vertical-align: middle;
+}
+
+.users-table tbody tr:hover {
+  background: #f9fbff;
+  transition: 0.2s;
+}
+
+/* Role Badge */
+.role-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-badge.user {
+  background: #e7f1ff;
+  color: #0d6efd;
+}
+
+.role-badge.ngo {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.role-badge.admin {
+  background: #fdecea;
+  color: #dc3545;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .users-card {
+    padding: 15px;
+  }
+
+  .users-table th,
+  .users-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+}
