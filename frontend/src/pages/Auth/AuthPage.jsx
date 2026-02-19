@@ -54,7 +54,7 @@ export default function AuthPage() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/login", {
+      const res = await axios.post("https://ngo-connect-backend.onrender.com/api/auth/login", {
         identifier: formData.identifier,
         password: formData.password,
       });
@@ -87,7 +87,7 @@ export default function AuthPage() {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/auth/register", {
+      await axios.post("https://ngo-connect-backend.onrender.com/api/auth/register", {
         username: formData.username,
         email: formData.email,
         password: formData.password,

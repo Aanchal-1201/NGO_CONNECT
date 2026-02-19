@@ -14,7 +14,7 @@ export default function NGODashboard() {
   /* ================= FETCH STATS ================= */
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/ngo/dashboard", {
+      const res = await axios.get("https://ngo-connect-backend.onrender.com/api/ngo/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setStats(res.data);
@@ -27,7 +27,7 @@ export default function NGODashboard() {
 const fetchRequests = async () => {
   try {
     const res = await axios.get(
-      "http://localhost:8080/api/ngo/nearby-requests",
+      "https://ngo-connect-backend.onrender.com/api/ngo/nearby-requests",
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -47,7 +47,7 @@ const fetchRequests = async () => {
   const fetchUnreadCount = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/notifications/unread-count",
+        "https://ngo-connect-backend.onrender.com/api/notifications/unread-count",
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setUnreadCount(res.data.count);
@@ -60,7 +60,7 @@ const fetchRequests = async () => {
   const acceptRequest = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:8080/api/ngo/accept/${id}`,
+        `https://ngo-connect-backend.onrender.com/api/ngo/accept/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } },
       );

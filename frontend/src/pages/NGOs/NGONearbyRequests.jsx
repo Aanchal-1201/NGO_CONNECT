@@ -17,7 +17,7 @@ export default function NGONearbyRequests() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/ngo/nearby-requests",
+        "https://ngo-connect-backend.onrender.com/api/ngo/nearby-requests",
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setRequests(res.data.requests);
@@ -30,7 +30,7 @@ export default function NGONearbyRequests() {
   const acceptRequest = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:8080/api/ngo/accept/${id}`,
+        `https://ngo-connect-backend.onrender.com/api/ngo/accept/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -86,7 +86,7 @@ export default function NGONearbyRequests() {
                     onClick={() => openPreview(req.imageUrls)}
                   >
                     <img
-                      src={`http://localhost:8080/${req.imageUrls[0]}`}
+                      src={`https://ngo-connect-backend.onrender.com/${req.imageUrls[0]}`}
                       alt="request"
                     />
                   </div>
@@ -159,7 +159,7 @@ export default function NGONearbyRequests() {
               )}
 
               <img
-                src={`http://localhost:8080/${selectedImages[currentIndex]}`}
+                src={`https://ngo-connect-backend.onrender.com/${selectedImages[currentIndex]}`}
                 alt="preview"
                 className="modal-image"
               />

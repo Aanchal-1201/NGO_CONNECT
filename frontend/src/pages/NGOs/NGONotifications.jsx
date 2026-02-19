@@ -11,7 +11,7 @@ export default function NGONotifications() {
   const fetchNotifications = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/notifications",
+        "https://ngo-connect-backend.onrender.com/api/notifications",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -24,7 +24,7 @@ export default function NGONotifications() {
 
   const markAsRead = async (id) => {
     await axios.patch(
-      `http://localhost:8080/api/notifications/${id}/read`,
+      `https://ngo-connect-backend.onrender.com/api/notifications/${id}/read`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` },

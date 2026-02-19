@@ -16,7 +16,7 @@ export default function AdminNGOs() {
   const fetchNGOs = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/admin/ngos",
+        "https://ngo-connect-backend.onrender.com/api/admin/ngos",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -31,7 +31,7 @@ export default function AdminNGOs() {
   const toggleStatus = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:8080/api/admin/ngos/${id}/toggle`,
+        `https://ngo-connect-backend.onrender.com/api/admin/ngos/${id}/toggle`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -16,7 +16,7 @@ export default function NGOAcceptedRequests() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/ngo/accepted",
+        "https://ngo-connect-backend.onrender.com/api/ngo/accepted",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setRequests(res.data);
@@ -29,7 +29,7 @@ export default function NGOAcceptedRequests() {
   const completeRequest = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:8080/api/ngo/complete/${id}`,
+        `https://ngo-connect-backend.onrender.com/api/ngo/complete/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -84,7 +84,7 @@ export default function NGOAcceptedRequests() {
                     onClick={() => openPreview(req.imageUrls)}
                   >
                     <img
-                      src={`http://localhost:8080/${req.imageUrls[0]}`}
+                      src={`https://ngo-connect-backend.onrender.com/${req.imageUrls[0]}`}
                       alt="request"
                     />
                   </div>
@@ -131,7 +131,7 @@ export default function NGOAcceptedRequests() {
               )}
 
               <img
-                src={`http://localhost:8080/${selectedImages[currentIndex]}`}
+                src={`https://ngo-connect-backend.onrender.com/${selectedImages[currentIndex]}`}
                 alt="preview"
                 className="modal-image"
               />

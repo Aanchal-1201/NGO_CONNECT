@@ -43,13 +43,6 @@ export default function AdminSidebar() {
           </NavLink>
         </li>
 
-        <li>
-          <NavLink to="/admin/settings" className="sidebar-link">
-            <i className="fa-solid fa-gear"></i>
-            <span>Settings</span>
-          </NavLink>
-        </li>
-
       <hr />
 
         <li onClick={() => navigate("/")}>

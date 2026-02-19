@@ -16,7 +16,7 @@ export default function AdminHelpRequests() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/admin/help-requests",
+        "https://ngo-connect-backend.onrender.com/api/admin/help-requests",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -120,7 +120,7 @@ export default function AdminHelpRequests() {
                           }
                         >
                           <img
-                            src={`http://localhost:8080/${req.imageUrls[0]}`}
+                            src={`https://ngo-connect-backend.onrender.com/${req.imageUrls[0]}`}
                             alt="request"
                             className="thumbnail-img"
                           />
@@ -165,7 +165,7 @@ export default function AdminHelpRequests() {
             </button>
 
             <img
-              src={`http://localhost:8080/${previewImages[currentIndex]}`}
+              src={`https://ngo-connect-backend.onrender.com/${previewImages[currentIndex]}`}
               alt="preview"
               className="modal-image"
             />

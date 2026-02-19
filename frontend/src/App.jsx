@@ -7,7 +7,6 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminUsers from "./pages/Admin/AdminUsers";
 import AdminNGOs from "./pages/Admin/AdminNGOs";
 import AdminHelpRequests from "./pages/Admin/AdminHelpRequests";
-import AdminSettings from "./pages/Admin/AdminSettings";
 import NGODashboard from "./pages/NGOs/NGODashboard";
 import NGONearbyRequests from "./pages/NGOs/NGONearbyRequests";
 import NGOAcceptedRequests from "./pages/NGOs/NGOAcceptedRequests";
@@ -33,7 +32,7 @@ function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/ngos" element={<AdminNGOs />} />
         <Route path="/admin/help-requests" element={<AdminHelpRequests />} />
-        <Route path="/admin/settings" element={<AdminSettings />} />
+
 
         {/* NGO ROUTES */}
         <Route path="/ngo/dashboard" element={<NGODashboard />} />
