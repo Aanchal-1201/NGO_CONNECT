@@ -1,30 +1,34 @@
 const User = require("../models/userModel");
-const generateToken = require("./../utils/generateToken");
+const generateToken = require("../utils/generateToken");
 
 /* ================= REGISTER ================= */
 const register = async (req, res) => {
   try {
-    const { username, email, password, role, adminSecret } = req.body;
+    const { username, email, password, role } = req.body;
 
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+    /* ===== BASIC VALIDATION ===== */
+    if (!username || !email || !password || !role) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
     }
 
-    // Check existing email
+    /* ===== ONLY ALLOW USER OR NGO ===== */
+    if (!["user", "ngo"].includes(role)) {
+      return res.status(403).json({
+        message: "Invalid role selection",
+      });
+    }
+
+    /* ===== CHECK EXISTING USER ===== */
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already registered" });
+      return res.status(400).json({
+        message: "Email already registered",
+      });
     }
 
-    // 🔐 ADMIN REGISTRATION PROTECTION
-    if (role === "admin") {
-      if (!adminSecret || adminSecret !== process.env.ADMIN_REGISTER_SECRET) {
-        return res.status(403).json({
-          message: "Invalid admin secret key",
-        });
-      }
-    }
-
+    /* ===== CREATE USER ===== */
     const user = await User.create({
       username,
       email,
@@ -32,6 +36,7 @@ const register = async (req, res) => {
       role,
     });
 
+    /* ===== GENERATE TOKEN ===== */
     const token = generateToken(user);
 
     res.status(201).json({
@@ -44,33 +49,51 @@ const register = async (req, res) => {
         role: user.role,
       },
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Register Error:", error);
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
+
 
 /* ================= LOGIN ================= */
 const login = async (req, res) => {
   try {
     const { identifier, password } = req.body;
 
+    /* ===== VALIDATION ===== */
     if (!identifier || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({
+        message: "All fields are required",
+      });
     }
 
+    /* ===== FIND USER BY EMAIL OR USERNAME ===== */
     const user = await User.findOne({
-      $or: [{ email: identifier }, { username: identifier }],
+      $or: [
+        { email: identifier },
+        { username: identifier },
+      ],
     }).select("+password");
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
     }
 
+    /* ===== CHECK PASSWORD ===== */
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
     }
 
+    /* ===== GENERATE TOKEN ===== */
     const token = generateToken(user);
 
     res.status(200).json({
@@ -83,8 +106,12 @@ const login = async (req, res) => {
         role: user.role,
       },
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Login Error:", error);
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 

@@ -85,3 +85,19 @@
   color: white;
   cursor: pointer;
 }
+
+.create-admin-btn {
+  background: #6f42c1;
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  margin-right: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.create-admin-btn:hover {
+  background: #5a32a3;
+}

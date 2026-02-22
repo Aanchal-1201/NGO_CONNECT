@@ -6,6 +6,7 @@ const {
   getAllNGOs,
   toggleNGOStatus,
   getAllHelpRequests,
+  createAdmin
 } = require("../controllers/adminController");
 
 const { protect, authorize } = require("../middleware/authMiddleware");
@@ -19,5 +20,6 @@ router.get("/users", getAllUsers);
 router.get("/ngos", getAllNGOs);
 router.patch("/ngos/:id/toggle", toggleNGOStatus);
 router.get("/help-requests", getAllHelpRequests);
+router.post("/create-admin", createAdmin);
 
 module.exports = router;

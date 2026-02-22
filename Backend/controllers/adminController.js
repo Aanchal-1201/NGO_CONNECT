@@ -81,10 +81,53 @@ const getAllHelpRequests = async (req, res) => {
   }
 };
 
+/* ================= CREATE NEW ADMIN ================= */
+const createAdmin = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Email already exists",
+      });
+    }
+
+    const newAdmin = await User.create({
+      username,
+      email,
+      password,
+      role: "admin",
+    });
+
+    res.status(201).json({
+      message: "Admin created successfully",
+      admin: {
+        id: newAdmin._id,
+        username: newAdmin.username,
+        email: newAdmin.email,
+        role: newAdmin.role,
+      },
+    });
+
+  } catch (error) {
+    console.error("Create Admin Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getDashboardStats,
   getAllUsers,
   getAllNGOs,
   toggleNGOStatus,
   getAllHelpRequests,
+  createAdmin, // 👈 added here
 };

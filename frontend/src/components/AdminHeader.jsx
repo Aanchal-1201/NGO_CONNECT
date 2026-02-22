@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import "./AdminHeader.css";
 
-export default function AdminHeader({ title = "Dashboard Overview" }) {
+export default function AdminHeader({
+  title = "Dashboard Overview",
+  onCreateAdmin, // 🔥 receive function from dashboard
+}) {
   const navigate = useNavigate();
-
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // Get first letter of username
   const initial = user?.username
     ? user.username.charAt(0).toUpperCase()
     : "A";
@@ -18,6 +19,16 @@ export default function AdminHeader({ title = "Dashboard Overview" }) {
       </div>
 
       <div className="header-right">
+
+        {/* 🔥 CREATE ADMIN BUTTON */}
+        <button
+          className="create-admin-btn"
+          onClick={onCreateAdmin}
+        >
+          <i className="fa-solid fa-user-shield me-2"></i>
+          Create Admin
+        </button>
+
         <button
           className="register-btn"
           onClick={() => navigate("/admin/ngos/create")}

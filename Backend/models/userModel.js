@@ -26,13 +26,14 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["user", "admin", "ngo"],
+      enum: ["user", "ngo", "admin"],
       default: "user",
     },
   },
   { timestamps: true }
 );
 
+/* ===== HASH PASSWORD ===== */
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
 
@@ -40,6 +41,7 @@ userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+/* ===== MATCH PASSWORD ===== */
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

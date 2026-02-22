@@ -7,7 +7,56 @@ import "./AdminDashboard.css";
 export default function AdminDashboard() {
   const [stats, setStats] = useState({});
   const [ngos, setNgos] = useState([]);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const [adminForm, setAdminForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
   const token = localStorage.getItem("token");
+
+  /* ================= HANDLE INPUT ================= */
+  const handleAdminChange = (e) => {
+    setAdminForm({
+      ...adminForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  /* ================= CREATE ADMIN ================= */
+  const createAdmin = async (e) => {
+    e.preventDefault();
+
+    if (!adminForm.username || !adminForm.email || !adminForm.password) {
+      alert("All fields are required");
+      return;
+    }
+
+    try {
+      await axios.post(
+        "http://localhost:8080/api/admin/create-admin",
+        adminForm,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      alert("Admin created successfully");
+
+      setAdminForm({
+        username: "",
+        email: "",
+        password: "",
+      });
+
+      setShowAdminModal(false);
+
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to create admin");
+    }
+  };
 
   /* ================= FETCH STATS ================= */
   const fetchStats = async () => {
@@ -39,7 +88,7 @@ export default function AdminDashboard() {
     }
   };
 
-  /* ================= TOGGLE STATUS ================= */
+  /* ================= TOGGLE NGO ================= */
   const toggleStatus = async (id) => {
     try {
       await axios.patch(
@@ -52,7 +101,6 @@ export default function AdminDashboard() {
 
       fetchNGOs();
     } catch (error) {
-      console.error(error.response?.data || error);
       alert("Toggle failed");
     }
   };
@@ -67,9 +115,12 @@ export default function AdminDashboard() {
       <AdminSidebar />
 
       <div className="admin-content">
-        <AdminHeader title="Dashboard Overview" />
+        <AdminHeader
+          title="Dashboard Overview"
+          onCreateAdmin={() => setShowAdminModal(true)}
+        />
 
-        {/* ================= STAT CARDS ================= */}
+        {/* ================= STATS ================= */}
         <div className="stats-grid">
           <div className="stat-card blue">
             <div>
@@ -125,19 +176,15 @@ export default function AdminDashboard() {
                   <td>{ngo.name}</td>
                   <td>{ngo.user?.email}</td>
                   <td>{ngo.city}</td>
-
                   <td>
                     <span
                       className={`status-badge ${
-                        ngo.isActive
-                          ? "active"
-                          : "inactive"
+                        ngo.isActive ? "active" : "inactive"
                       }`}
                     >
                       {ngo.isActive ? "Active" : "Inactive"}
                     </span>
                   </td>
-
                   <td>
                     <button
                       className="toggle-btn"
@@ -160,6 +207,64 @@ export default function AdminDashboard() {
           </table>
         </div>
       </div>
+
+      {/* ================= CREATE ADMIN MODAL ================= */}
+      {showAdminModal && (
+        <div
+          className="admin-modal-overlay"
+          onClick={() => setShowAdminModal(false)}
+        >
+          <div
+            className="admin-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4>Create New Admin</h4>
+
+            <form onSubmit={createAdmin}>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={adminForm.username}
+                onChange={handleAdminChange}
+                required
+              />
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={adminForm.email}
+                onChange={handleAdminChange}
+                required
+              />
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={adminForm.password}
+                onChange={handleAdminChange}
+                required
+              />
+
+              <div className="modal-actions">
+                <button type="submit" className="modal-create-btn">
+                  Create
+                </button>
+
+                <button
+                  type="button"
+                  className="modal-cancel-btn"
+                  onClick={() => setShowAdminModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

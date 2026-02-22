@@ -12,7 +12,6 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showAdminSecret, setShowAdminSecret] = useState(false);
 
   const [passwordStrength, setPasswordStrength] = useState(0);
 
@@ -22,7 +21,6 @@ export default function AuthPage() {
     identifier: "",
     password: "",
     confirmPassword: "",
-    adminSecret: "",
   });
 
   /* ================= PASSWORD STRENGTH ================= */
@@ -54,10 +52,13 @@ export default function AuthPage() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("https://ngo-connect-backend.onrender.com/api/auth/login", {
-        identifier: formData.identifier,
-        password: formData.password,
-      });
+      const res = await axios.post(
+        "https://ngo-connect-backend.onrender.com/api/auth/login",
+        {
+          identifier: formData.identifier,
+          password: formData.password,
+        }
+      );
 
       const { token, user } = res.data;
 
@@ -67,6 +68,7 @@ export default function AuthPage() {
       if (user.role === "admin") navigate("/admin/dashboard");
       else if (user.role === "ngo") navigate("/ngo/dashboard");
       else navigate("/");
+
     } catch (error) {
       alert(error.response?.data?.message || "Login failed");
     }
@@ -87,16 +89,27 @@ export default function AuthPage() {
     }
 
     try {
-      await axios.post("https://ngo-connect-backend.onrender.com/api/auth/register", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        role,
-        adminSecret: role === "admin" ? formData.adminSecret : undefined,
-      });
+      await axios.post(
+        "https://ngo-connect-backend.onrender.com/api/auth/register",
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          role, // only user or ngo
+        }
+      );
 
       alert("Registered Successfully. Please login.");
       setActiveTab("login");
+
+      setFormData({
+        username: "",
+        email: "",
+        identifier: "",
+        password: "",
+        confirmPassword: "",
+      });
+
     } catch (error) {
       alert(error.response?.data?.message || "Registration failed");
     }
@@ -160,7 +173,9 @@ export default function AuthPage() {
               ></i>
             </div>
 
-            <button className="btn btn-primary w-100 auth-btn">Sign In</button>
+            <button className="btn btn-primary w-100 auth-btn">
+              Sign In
+            </button>
           </form>
         )}
 
@@ -169,7 +184,7 @@ export default function AuthPage() {
           <form onSubmit={handleRegister}>
             {/* ROLE SELECTOR */}
             <div className="role-selector mb-3">
-              {["user", "ngo", "admin"].map((r) => (
+              {["user", "ngo"].map((r) => (
                 <button
                   type="button"
                   key={r}
@@ -243,32 +258,9 @@ export default function AuthPage() {
               ></i>
             </div>
 
-            {/* ADMIN SECRET */}
-            {role === "admin" && (
-              <div className="mb-3 position-relative">
-                <input
-                  type={showAdminSecret ? "text" : "password"}
-                  className="form-control"
-                  placeholder="Admin Secret Key"
-                  name="adminSecret"
-                  value={formData.adminSecret}
-                  onChange={handleChange}
-                  required
-                />
-                <i
-                  className={`fa-solid ${
-                    showAdminSecret ? "fa-eye-slash" : "fa-eye"
-                  } eye-icon`}
-                  onClick={() => setShowAdminSecret(!showAdminSecret)}
-                ></i>
-              </div>
-            )}
-
-            {/* PASSWORD STRENGTH BAR */}
+            {/* PASSWORD STRENGTH */}
             <div className="password-strength mb-3">
-              <div
-                className={`strength-bar strength-${passwordStrength}`}
-              ></div>
+              <div className={`strength-bar strength-${passwordStrength}`}></div>
             </div>
 
             <button className="btn btn-success w-100 auth-btn">
