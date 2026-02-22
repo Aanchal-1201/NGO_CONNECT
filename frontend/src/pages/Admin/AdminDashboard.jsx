@@ -36,7 +36,7 @@ export default function AdminDashboard() {
 
     try {
       await axios.post(
-        "http://localhost:8080/api/admin/create-admin",
+        "https://ngo-connect-backend.onrender.com/api/admin/create-admin",
         adminForm,
         {
           headers: { Authorization: `Bearer ${token}` },
