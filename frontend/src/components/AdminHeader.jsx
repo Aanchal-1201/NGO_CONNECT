@@ -29,13 +29,13 @@ export default function AdminHeader({
           Create Admin
         </button>
 
-        <button
+        {/* <button
           className="register-btn"
           onClick={() => navigate("/admin/ngos/create")}
         >
           <i className="fa-solid fa-plus me-2"></i>
           Register NGO
-        </button>
+        </button> */}
 
         <div className="admin-profile">
           <div className="avatar">{initial}</div>
