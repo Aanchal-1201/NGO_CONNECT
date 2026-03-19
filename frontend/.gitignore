@@ -58,3 +58,8 @@ Thumbs.db
 # ==============================
 *.log
 *.pid
+
+node_modules/
+.env
+frontend/dist/
+dist/
