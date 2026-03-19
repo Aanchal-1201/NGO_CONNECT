@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminHeader from "../../components/AdminHeader";
 import "./AdminUsers.css";
+import BASE_URL from "../../config";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -10,7 +11,7 @@ export default function AdminUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("https://ngo-connect-backend.onrender.com/api/admin/users", {
+      const res = await axios.get(`${BASE_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

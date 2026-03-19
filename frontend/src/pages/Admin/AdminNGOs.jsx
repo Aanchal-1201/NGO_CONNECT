@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminHeader from "../../components/AdminHeader";
 import "./AdminNGOs.css";
+import BASE_URL from "../../config";
 
 export default function AdminNGOs() {
   const [ngos, setNgos] = useState([]);
@@ -16,7 +17,7 @@ export default function AdminNGOs() {
   const fetchNGOs = async () => {
     try {
       const res = await axios.get(
-        "https://ngo-connect-backend.onrender.com/api/admin/ngos",
+        `${BASE_URL}/api/admin/ngos`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -31,7 +32,7 @@ export default function AdminNGOs() {
   const toggleStatus = async (id) => {
     try {
       await axios.patch(
-        `https://ngo-connect-backend.onrender.com/api/admin/ngos/${id}/toggle`,
+        `${BASE_URL}/api/admin/ngos/${id}/toggle`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

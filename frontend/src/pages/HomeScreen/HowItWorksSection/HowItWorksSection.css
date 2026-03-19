@@ -1,0 +1,80 @@
+.how-it-works {
+  background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-primary) 100%);
+  color: var(--text-primary) !important;
+  padding: 100px 10%;
+  text-align: center;
+  position: relative;
+  transition: all var(--transition-speed) ease;
+}
+
+.how-it-works h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary) !important;
+}
+
+.how-it-works > p {
+  color: var(--text-secondary) !important;
+  font-size: 1.1rem;
+  margin: 0 auto 60px auto;
+  max-width: 600px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.steps div {
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-speed) ease;
+}
+
+.steps div:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-primary);
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 32px;
+  color: white !important; /* Keep white for contrast inside the gradient bubble */
+  box-shadow: 0 10px 20px rgba(var(--accent-primary-rgb, 59, 130, 246), 0.3);
+  transition: all var(--transition-speed) ease;
+}
+
+.steps div:hover .icon-circle {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 15px 30px rgba(var(--accent-primary-rgb, 59, 130, 246), 0.5);
+}
+
+.steps h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary) !important;
+}
+
+.steps p {
+  color: var(--text-secondary) !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}

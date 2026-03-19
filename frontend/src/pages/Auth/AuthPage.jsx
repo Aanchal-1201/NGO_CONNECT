@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AuthPage.css";
@@ -23,15 +23,21 @@ export default function AuthPage() {
     confirmPassword: "",
   });
 
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
+
   /* ================= PASSWORD STRENGTH ================= */
   const checkPasswordStrength = (password) => {
     let strength = 0;
-
     if (password.length >= 6) strength++;
     if (password.match(/[A-Z]/)) strength++;
     if (password.match(/[0-9]/)) strength++;
     if (password.match(/[^A-Za-z0-9]/)) strength++;
-
     setPasswordStrength(strength);
   };
 
@@ -95,7 +101,7 @@ export default function AuthPage() {
           username: formData.username,
           email: formData.email,
           password: formData.password,
-          role, // only user or ngo
+          role,
         }
       );
 
@@ -116,158 +122,174 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-wrapper d-flex justify-content-center align-items-center">
-      <div className="auth-card shadow-lg">
-        <h2 className="text-center mb-2">Welcome Back</h2>
-        <p className="text-center text-muted mb-4">
-          Empowering change through meaningful connections.
-        </p>
+    <div className="auth-container container-fluid">
+      <div className="row min-vh-100">
 
-        {/* TABS */}
-        <div className="d-flex justify-content-center mb-4">
-          <button
-            className={`tab-btn ${activeTab === "login" ? "active" : ""}`}
-            onClick={() => setActiveTab("login")}
-          >
-            Login
-          </button>
-
-          <button
-            className={`tab-btn ${activeTab === "register" ? "active" : ""}`}
-            onClick={() => setActiveTab("register")}
-          >
-            Register
-          </button>
+        {/* LEFT SIDE */}
+        <div className="col-lg-6 d-none d-lg-flex auth-left">
+          <div className="left-content">
+            <h1>NGO Connect</h1>
+            <h2>Connecting Help to Hope</h2>
+            <p>
+              A smart platform matching local needs with verified NGOs in real-time.
+            </p>
+          </div>
         </div>
 
-        {/* ================= LOGIN ================= */}
-        {activeTab === "login" && (
-          <form onSubmit={handleLogin}>
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Email or Username"
-                name="identifier"
-                value={formData.identifier}
-                onChange={handleChange}
-                required
-              />
+        {/* RIGHT SIDE */}
+        <div className="col-lg-6 d-flex justify-content-center align-items-center auth-right">
+          <div className="auth-card shadow-lg">
+
+            <h2 className="text-center mb-2">Welcome Back</h2>
+            <p className="text-center text-muted mb-4">
+              Empowering change through meaningful connections.
+            </p>
+
+            {/* TABS */}
+            <div className="d-flex justify-content-center mb-4">
+              <button
+                className={`tab-btn ${activeTab === "login" ? "active" : ""}`}
+                onClick={() => setActiveTab("login")}
+              >
+                Login
+              </button>
+
+              <button
+                className={`tab-btn ${activeTab === "register" ? "active" : ""}`}
+                onClick={() => setActiveTab("register")}
+              >
+                Register
+              </button>
             </div>
 
-            <div className="mb-3 position-relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <i
-                className={`fa-solid ${
-                  showPassword ? "fa-eye-slash" : "fa-eye"
-                } eye-icon`}
-                onClick={() => setShowPassword(!showPassword)}
-              ></i>
-            </div>
+            {/* LOGIN FORM */}
+            {activeTab === "login" && (
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Email or Username"
+                    name="identifier"
+                    value={formData.identifier}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-            <button className="btn btn-primary w-100 auth-btn">
-              Sign In
-            </button>
-          </form>
-        )}
+                <div className="mb-3 position-relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control"
+                    placeholder="Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <span
+                    className="eye-icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    👁
+                  </span>
+                </div>
 
-        {/* ================= REGISTER ================= */}
-        {activeTab === "register" && (
-          <form onSubmit={handleRegister}>
-            {/* ROLE SELECTOR */}
-            <div className="role-selector mb-3">
-              {["user", "ngo"].map((r) => (
-                <button
-                  type="button"
-                  key={r}
-                  className={`role-btn ${role === r ? "active" : ""}`}
-                  onClick={() => setRole(r)}
-                >
-                  {r.toUpperCase()}
+                <button className="btn btn-primary w-100 auth-btn">
+                  Sign In
                 </button>
-              ))}
-            </div>
+              </form>
+            )}
 
-            <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            {/* REGISTER FORM */}
+            {activeTab === "register" && (
+              <form onSubmit={handleRegister}>
+                <div className="role-selector mb-3">
+                  {["user", "ngo"].map((r) => (
+                    <button
+                      type="button"
+                      key={r}
+                      className={`role-btn ${role === r ? "active" : ""}`}
+                      onClick={() => setRole(r)}
+                    >
+                      {r.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
 
-            <div className="mb-3">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-            {/* PASSWORD */}
-            <div className="mb-2 position-relative">
-              <input
-                type={showRegisterPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <i
-                className={`fa-solid ${
-                  showRegisterPassword ? "fa-eye-slash" : "fa-eye"
-                } eye-icon`}
-                onClick={() => setShowRegisterPassword(!showRegisterPassword)}
-              ></i>
-            </div>
+                <div className="mb-3">
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-            {/* CONFIRM PASSWORD */}
-            <div className="mb-3 position-relative">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                className="form-control mt-3"
-                placeholder="Confirm Password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-              <i
-                className={`fa-solid ${
-                  showConfirmPassword ? "fa-eye-slash" : "fa-eye"
-                } eye-icon`}
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              ></i>
-            </div>
+                <div className="mb-2 position-relative">
+                  <input
+                    type={showRegisterPassword ? "text" : "password"}
+                    className="form-control"
+                    placeholder="Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <span
+                    className="eye-icon"
+                    onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                  >
+                    👁
+                  </span>
+                </div>
 
-            {/* PASSWORD STRENGTH */}
-            <div className="password-strength mb-3">
-              <div className={`strength-bar strength-${passwordStrength}`}></div>
-            </div>
+                <div className="mb-3 position-relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    className="form-control"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                  <span
+                    className="eye-icon"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    👁
+                  </span>
+                </div>
 
-            <button className="btn btn-success w-100 auth-btn">
-              Create Account
-            </button>
-          </form>
-        )}
+                <div className="password-strength mb-3">
+                  <div className={`strength-bar strength-${passwordStrength}`}></div>
+                </div>
+
+                <button className="btn btn-success w-100 auth-btn">
+                  Create Account
+                </button>
+              </form>
+            )}
+
+          </div>
+        </div>
+
       </div>
     </div>
   );

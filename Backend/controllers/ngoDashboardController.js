@@ -1,43 +1,44 @@
-const HelpRequest = require("../models/helpRequestModel");
-const NGO = require("../models/ngoModel");
+const { HelpRequest, NGO } = require("../models/index");
+const { sequelize } = require("../config/db");
+
+/* ===============================================================
+   Haversine distance SQL snippet (returns metres)
+   =============================================================== */
+const haversineExpr = (ngoLat, ngoLng) => `
+  (6371000 * ACOS(
+    COS(RADIANS(${ngoLat})) * COS(RADIANS(hr.latitude)) *
+    COS(RADIANS(hr.longitude) - RADIANS(${ngoLng})) +
+    SIN(RADIANS(${ngoLat})) * SIN(RADIANS(hr.latitude))
+  ))
+`;
 
 /* ================= GET NGO DASHBOARD STATS ================= */
 const getNGODashboardStats = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
-
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const acceptedRequests = await HelpRequest.countDocuments({
-      assignedTo: ngo._id,
-      status: "accepted",
+    const acceptedRequests = await HelpRequest.count({
+      where: { assignedToId: ngo.id, status: "accepted" },
     });
 
-    const completedRequests = await HelpRequest.countDocuments({
-      assignedTo: ngo._id,
-      status: "resolved",
+    const completedRequests = await HelpRequest.count({
+      where: { assignedToId: ngo.id, status: "resolved" },
     });
 
-    // 🔥 FIXED PART
-    const nearbyPendingRequests = await HelpRequest.find({
-      status: "pending",
-      location: {
-        $near: {
-          $geometry: {
-            type: "Point",
-            coordinates: ngo.location.coordinates,
-          },
-          $maxDistance: 35000,
-        },
-      },
-    });
-
-    const pendingNearby = nearbyPendingRequests.length;
+    // Count nearby pending requests using Haversine
+    const [{ pendingNearby }] = await sequelize.query(
+      `SELECT COUNT(*) AS pendingNearby
+       FROM HelpRequests hr
+       WHERE hr.status = 'pending'
+       AND ${haversineExpr(ngo.latitude, ngo.longitude)} <= 35000`,
+      { type: sequelize.QueryTypes.SELECT }
+    );
 
     res.status(200).json({
-      pendingNearby,
+      pendingNearby: Number(pendingNearby),
       acceptedRequests,
       completedRequests,
     });
@@ -50,33 +51,31 @@ const getNGODashboardStats = async (req, res) => {
 /* ================= GET NEARBY REQUESTS ================= */
 const getNearbyRequests = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
-
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const requests = await HelpRequest.aggregate([
-      {
-        $geoNear: {
-          near: {
-            type: "Point",
-            coordinates: ngo.location.coordinates,
-          },
-          distanceField: "distance",
-          maxDistance: 35000,
-          spherical: true,
-          query: { status: "pending" },
-        },
-      },
-      {
-        $sort: { createdAt: -1 },
-      },
-    ]);
+    // Raw query with Haversine distance, ordered by closest first
+    const requests = await sequelize.query(
+      `SELECT hr.*,
+              ${haversineExpr(ngo.latitude, ngo.longitude)} AS distance
+       FROM HelpRequests hr
+       WHERE hr.status = 'pending'
+       AND ${haversineExpr(ngo.latitude, ngo.longitude)} <= 35000
+       ORDER BY hr.createdAt DESC`,
+      { type: sequelize.QueryTypes.SELECT }
+    );
+
+    // Parse imageUrls for each row (stored as JSON string)
+    const parsed = requests.map((r) => ({
+      ...r,
+      imageUrls: r.imageUrls ? JSON.parse(r.imageUrls) : [],
+    }));
 
     res.status(200).json({
-      ngoLocation: ngo.location.coordinates,
-      requests,
+      ngoLocation: [ngo.longitude, ngo.latitude],
+      requests: parsed,
     });
   } catch (error) {
     console.error("Nearby Request Error:", error);
@@ -84,32 +83,26 @@ const getNearbyRequests = async (req, res) => {
   }
 };
 
-/* ================= ACCEPT REQUEST (SAFE) ================= */
+/* ================= ACCEPT REQUEST ================= */
 const acceptRequest = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
-
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const request = await HelpRequest.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        status: "pending",
-      },
-      {
-        status: "accepted",
-        assignedTo: ngo._id,
-      },
-      { new: true },
+    const [updated] = await HelpRequest.update(
+      { status: "accepted", assignedToId: ngo.id },
+      { where: { id: req.params.id, status: "pending" } }
     );
 
-    if (!request) {
+    if (!updated) {
       return res.status(400).json({
         message: "Request already accepted by another NGO",
       });
     }
+
+    const request = await HelpRequest.findByPk(req.params.id);
 
     res.status(200).json({
       message: "Request accepted successfully",
@@ -123,22 +116,17 @@ const acceptRequest = async (req, res) => {
 /* ================= COMPLETE REQUEST ================= */
 const completeRequest = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
-
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const request = await HelpRequest.findById(req.params.id);
-
+    const request = await HelpRequest.findByPk(req.params.id);
     if (!request) {
       return res.status(404).json({ message: "Request not found" });
     }
 
-    if (
-      !request.assignedTo ||
-      request.assignedTo.toString() !== ngo._id.toString()
-    ) {
+    if (!request.assignedToId || request.assignedToId !== ngo.id) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
@@ -157,16 +145,15 @@ const completeRequest = async (req, res) => {
 /* ================= GET ACCEPTED REQUESTS ================= */
 const getAcceptedRequests = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
-
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const requests = await HelpRequest.find({
-      assignedTo: ngo._id,
-      status: "accepted",
-    }).sort({ createdAt: -1 });
+    const requests = await HelpRequest.findAll({
+      where: { assignedToId: ngo.id, status: "accepted" },
+      order: [["createdAt", "DESC"]],
+    });
 
     res.status(200).json(requests);
   } catch (error) {

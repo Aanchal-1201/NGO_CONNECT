@@ -1,74 +1,58 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
 
-const helpRequestSchema = new mongoose.Schema(
+const HelpRequest = sequelize.define(
+  "HelpRequest",
   {
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-
+    // createdById FK added via association in models/index.js
+    // assignedToId FK added via association in models/index.js
     username: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(100),
+      allowNull: false,
     },
-
     helpType: {
-      type: String,
-      required: true,
-      enum: ["food", "medical", "shelter", "clothes", "education", "other"],
+      type: DataTypes.ENUM("food", "medical", "shelter", "clothes", "education", "other"),
+      allowNull: false,
     },
-
     description: {
-      type: String,
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
-
+    // Store array of image paths as JSON string
     imageUrls: {
-      type: [String],
-      required: true,
-      validate: {
-        validator: function (val) {
-          return val.length >= 1 && val.length <= 4;
-        },
-        message: "Minimum 1 image and maximum 4 images allowed",
+      type: DataTypes.TEXT,
+      allowNull: false,
+      get() {
+        const val = this.getDataValue("imageUrls");
+        return val ? JSON.parse(val) : [];
+      },
+      set(val) {
+        this.setDataValue("imageUrls", JSON.stringify(val));
       },
     },
-
-    location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        default: "Point",
-      },
-      coordinates: {
-        type: [Number], // [lng, lat]
-        required: true,
-      },
+    latitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
-
-    // 🔥 NEW FIELD
-    assignedTo: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "NGO",
-      default: null,
+    longitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
-
     status: {
-      type: String,
-      enum: ["pending", "accepted", "resolved"],
-      default: "pending",
+      type: DataTypes.ENUM("pending", "accepted", "resolved"),
+      defaultValue: "pending",
     },
-
     priority: {
-      type: String,
-      enum: ["low", "medium", "high"],
-      default: "medium",
+      type: DataTypes.ENUM("low", "medium", "high"),
+      defaultValue: "medium",
     },
   },
   { timestamps: true }
 );
 
-// Geo index
-helpRequestSchema.index({ location: "2dsphere" });
-
-module.exports = mongoose.model("HelpRequest", helpRequestSchema);
+module.exports = HelpRequest;

@@ -1,0 +1,43 @@
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+  margin-left: 1rem;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+  border-color: var(--text-muted);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle__icon-wrapper {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.2rem;
+}
+
+/* Rotation animation based on theme */
+.theme-toggle--light .theme-toggle__icon-wrapper {
+  color: #f59e0b;
+  transform: rotate(90deg);
+}
+
+.theme-toggle--dark .theme-toggle__icon-wrapper {
+  color: #a78bfa;
+  transform: rotate(-90deg);
+}

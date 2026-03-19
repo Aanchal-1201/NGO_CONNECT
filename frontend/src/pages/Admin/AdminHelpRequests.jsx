@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminHeader from "../../components/AdminHeader";
 import "./AdminHelpRequests.css";
+import BASE_URL from "../../config";
 
 export default function AdminHelpRequests() {
   const [requests, setRequests] = useState([]);
@@ -16,7 +17,7 @@ export default function AdminHelpRequests() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "https://ngo-connect-backend.onrender.com/api/admin/help-requests",
+        `${BASE_URL}/api/admin/help-requests`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -120,7 +121,7 @@ export default function AdminHelpRequests() {
                           }
                         >
                           <img
-                            src={`https://ngo-connect-backend.onrender.com/${req.imageUrls[0]}`}
+                            src={`${BASE_URL}/${req.imageUrls[0]}`}
                             alt="request"
                             className="thumbnail-img"
                           />
@@ -165,7 +166,7 @@ export default function AdminHelpRequests() {
             </button>
 
             <img
-              src={`https://ngo-connect-backend.onrender.com/${previewImages[currentIndex]}`}
+              src={`${BASE_URL}/${previewImages[currentIndex]}`}
               alt="preview"
               className="modal-image"
             />

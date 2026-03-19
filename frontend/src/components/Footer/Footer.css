@@ -1,22 +1,27 @@
 .footer-section {
-  background: #f8f9fb;
-  padding: 60px 0 30px 0;
+  background: var(--bg-card);
+  padding: 80px 0 40px 0;
+  border-top: 1px solid rgba(102, 252, 241, 0.05);
 }
 
 .footer-logo {
-  color: #0d6efd;
-  font-size: 20px;
+  color: var(--primary);
+  font-size: 24px;
+  filter: drop-shadow(0 0 10px rgba(102, 252, 241, 0.3));
 }
 
 .footer-text {
-  color: #6c757d;
-  font-size: 14px;
-  line-height: 1.6;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-top: 16px;
 }
 
 .footer-title {
-  font-weight: 600;
-  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  margin-bottom: 24px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -26,39 +31,55 @@
 .footer-links {
   list-style: none;
   padding: 0;
-  transition: 0.3s;
+  transition: var(--transition);
 }
 
 .footer-links li {
-  margin-bottom: 10px;
-  color: #6c757d;
+  margin-bottom: 14px;
+  color: var(--text-muted);
   cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.95rem;
 }
 
 .footer-links li:hover {
-  color: #0d6efd;
+  color: var(--primary);
+  transform: translateX(4px);
 }
 
 .subscribe-btn {
-  border-radius: 20px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--bg-dark);
+  font-weight: 600;
+  border: none;
+  padding: 10px 20px;
+  transition: var(--transition);
+}
+
+.subscribe-btn:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-glow);
 }
 
 .footer-divider {
-  margin: 40px 0 20px;
+  margin: 60px 0 30px;
+  border-color: rgba(255, 255, 255, 0.05);
 }
 
 .footer-bottom {
-  font-size: 14px;
-  color: #6c757d;
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .footer-policy span {
-  margin-left: 20px;
+  margin-left: 24px;
   cursor: pointer;
+  transition: var(--transition);
 }
 
 .footer-policy span:hover {
-  color: #0d6efd;
+  color: var(--primary);
 }
 
 /* MOBILE ACCORDION STYLE */
@@ -72,23 +93,29 @@
     display: none;
   }
 
-  .footer-links.show{
+  .footer-links.show {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
   .mobile-icon {
     display: inline-block;
-    font-size: 12px;
+    font-size: 14px;
+    color: var(--primary);
   }
 
   .footer-title {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .footer-policy {
+    margin-top: 16px;
+    text-align: center;
   }
 
   .footer-policy span {
-    margin-left: 0;
-    margin-right: 15px;
+    margin: 0 10px;
   }
 }

@@ -1,27 +1,26 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
 
-const notificationSchema = new mongoose.Schema(
+const Notification = sequelize.define(
+  "Notification",
   {
-    ngo: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "NGO",
-      required: true,
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    helpRequest: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "HelpRequest",
-      required: true,
-    },
+    // ngoId FK added via association in models/index.js
+    // helpRequestId FK added via association in models/index.js
     message: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(500),
+      allowNull: false,
     },
     isRead: {
-      type: Boolean,
-      default: false,
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Notification", notificationSchema);
+module.exports = Notification;

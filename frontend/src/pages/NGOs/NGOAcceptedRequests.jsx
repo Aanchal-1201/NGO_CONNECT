@@ -3,6 +3,7 @@ import axios from "axios";
 import NGOSidebar from "../../components/NGOSidebar";
 import NGOHeader from "../../components/NGOHeader";
 import "./NGOAcceptedRequests.css";
+import BASE_URL from "../../config";
 
 export default function NGOAcceptedRequests() {
   const [requests, setRequests] = useState([]);
@@ -16,7 +17,7 @@ export default function NGOAcceptedRequests() {
   const fetchRequests = async () => {
     try {
       const res = await axios.get(
-        "https://ngo-connect-backend.onrender.com/api/ngo/accepted",
+        `${BASE_URL}/api/ngo/accepted`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setRequests(res.data);
@@ -29,7 +30,7 @@ export default function NGOAcceptedRequests() {
   const completeRequest = async (id) => {
     try {
       await axios.patch(
-        `https://ngo-connect-backend.onrender.com/api/ngo/complete/${id}`,
+        `${BASE_URL}/api/ngo/complete/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -84,7 +85,7 @@ export default function NGOAcceptedRequests() {
                     onClick={() => openPreview(req.imageUrls)}
                   >
                     <img
-                      src={`https://ngo-connect-backend.onrender.com/${req.imageUrls[0]}`}
+                      src={`${BASE_URL}/${req.imageUrls[0]}`}
                       alt="request"
                     />
                   </div>
@@ -131,7 +132,7 @@ export default function NGOAcceptedRequests() {
               )}
 
               <img
-                src={`https://ngo-connect-backend.onrender.com/${selectedImages[currentIndex]}`}
+                src={`${BASE_URL}/${selectedImages[currentIndex]}`}
                 alt="preview"
                 className="modal-image"
               />

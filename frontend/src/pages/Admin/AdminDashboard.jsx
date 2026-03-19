@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminHeader from "../../components/AdminHeader";
 import "./AdminDashboard.css";
+import BASE_URL from "../../config";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({});
@@ -36,7 +37,7 @@ export default function AdminDashboard() {
 
     try {
       await axios.post(
-        "https://ngo-connect-backend.onrender.com/api/admin/create-admin",
+        `${BASE_URL}/api/admin/create-admin`,
         adminForm,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -62,7 +63,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const res = await axios.get(
-        "https://ngo-connect-backend.onrender.com/api/admin/dashboard",
+        `${BASE_URL}/api/admin/dashboard`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -77,7 +78,7 @@ export default function AdminDashboard() {
   const fetchNGOs = async () => {
     try {
       const res = await axios.get(
-        "https://ngo-connect-backend.onrender.com/api/admin/ngos",
+        `${BASE_URL}/api/admin/ngos`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -92,7 +93,7 @@ export default function AdminDashboard() {
   const toggleStatus = async (id) => {
     try {
       await axios.patch(
-        `https://ngo-connect-backend.onrender.com/api/admin/ngos/${id}/toggle`,
+        `${BASE_URL}/api/admin/ngos/${id}/toggle`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

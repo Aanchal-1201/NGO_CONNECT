@@ -1,76 +1,62 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
 
-const ngoSchema = new mongoose.Schema(
+const NGO = sequelize.define(
+  "NGO",
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-
+    // userId FK is added via association in models/index.js
     name: {
-      type: String,
-      required: true,
-      trim: true,
+      type: DataTypes.STRING(150),
+      allowNull: false,
     },
-
     email: {
-      type: String,
-      required: true,
-      lowercase: true,
+      type: DataTypes.STRING(150),
+      allowNull: false,
     },
-
     phone: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(20),
+      allowNull: false,
     },
-
     address: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(255),
+      allowNull: false,
     },
-
     city: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(100),
+      allowNull: false,
     },
-
     state: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(100),
+      allowNull: false,
     },
-
     description: {
-      type: String,
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
-
     registrationNumber: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(100),
+      allowNull: false,
       unique: true,
     },
-
-    location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        default: "Point",
-      },
-      coordinates: {
-        type: [Number], // [lng, lat]
-        required: true,
-      },
+    latitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
-
+    longitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
     isActive: {
-      type: Boolean,
-      default: true,
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
   },
   { timestamps: true }
 );
 
-// 🔥 Required for geo search
-ngoSchema.index({ location: "2dsphere" });
-
-module.exports = mongoose.model("NGO", ngoSchema);
+module.exports = NGO;

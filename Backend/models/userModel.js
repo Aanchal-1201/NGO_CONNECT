@@ -1,49 +1,53 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema(
+const User = sequelize.define(
+  "User",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     username: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 3,
+      type: DataTypes.STRING(100),
+      allowNull: false,
     },
-
     email: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING(150),
+      allowNull: false,
       unique: true,
-      lowercase: true,
+      validate: { isEmail: true },
     },
-
     password: {
-      type: String,
-      required: true,
-      minlength: 6,
-      select: false,
+      type: DataTypes.STRING(255),
+      allowNull: false,
     },
-
     role: {
-      type: String,
-      enum: ["user", "ngo", "admin"],
-      default: "user",
+      type: DataTypes.ENUM("user", "ngo", "admin"),
+      defaultValue: "user",
     },
   },
   { timestamps: true }
 );
 
-/* ===== HASH PASSWORD ===== */
-userSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
-
+/* ===== HASH PASSWORD BEFORE CREATE / UPDATE ===== */
+User.beforeCreate(async (user) => {
   const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  user.password = await bcrypt.hash(user.password, salt);
+});
+
+User.beforeUpdate(async (user) => {
+  if (user.changed("password")) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  }
 });
 
 /* ===== MATCH PASSWORD ===== */
-userSchema.methods.matchPassword = async function (enteredPassword) {
+User.prototype.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = User;

@@ -3,6 +3,7 @@ import axios from "axios";
 import NGOSidebar from "../../components/NGOSidebar";
 import NGOHeader from "../../components/NGOHeader";
 import "./NGONotifications.css";
+import BASE_URL from "../../config";
 
 export default function NGONotifications() {
   const [notifications, setNotifications] = useState([]);
@@ -11,7 +12,7 @@ export default function NGONotifications() {
   const fetchNotifications = async () => {
     try {
       const res = await axios.get(
-        "https://ngo-connect-backend.onrender.com/api/notifications",
+        `${BASE_URL}/api/notifications`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -24,7 +25,7 @@ export default function NGONotifications() {
 
   const markAsRead = async (id) => {
     await axios.patch(
-      `https://ngo-connect-backend.onrender.com/api/notifications/${id}/read`,
+      `${BASE_URL}/api/notifications/${id}/read`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` },

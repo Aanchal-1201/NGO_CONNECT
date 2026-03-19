@@ -1,9 +1,9 @@
-const PlatformSettings = require("../models/platformSettingsModel");
+const { PlatformSettings } = require("../models/index");
 
 /* ================= GET SETTINGS ================= */
 const getSettings = async (req, res) => {
   try {
-    let settings = await PlatformSettings.findOne();
+    let settings = await PlatformSettings.findOne({ where: {} });
 
     if (!settings) {
       settings = await PlatformSettings.create({});
@@ -18,7 +18,7 @@ const getSettings = async (req, res) => {
 /* ================= UPDATE SETTINGS ================= */
 const updateSettings = async (req, res) => {
   try {
-    let settings = await PlatformSettings.findOne();
+    let settings = await PlatformSettings.findOne({ where: {} });
 
     if (!settings) {
       settings = await PlatformSettings.create({});
@@ -27,7 +27,7 @@ const updateSettings = async (req, res) => {
     settings.maxSearchRadius = req.body.maxSearchRadius;
     settings.maxImages = req.body.maxImages;
     settings.notificationsEnabled = req.body.notificationsEnabled;
-    settings.helpTypes = req.body.helpTypes;
+    settings.helpTypes = req.body.helpTypes; // setter handles JSON.stringify
 
     await settings.save();
 
@@ -40,7 +40,4 @@ const updateSettings = async (req, res) => {
   }
 };
 
-module.exports = {
-  getSettings,
-  updateSettings,
-};
+module.exports = { getSettings, updateSettings };

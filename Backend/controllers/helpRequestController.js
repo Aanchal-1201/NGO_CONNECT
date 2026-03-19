@@ -1,83 +1,72 @@
-const HelpRequest = require("../models/helpRequestModel");
-const User = require("../models/userModel");
-const NGO = require("../models/ngoModel");
-const Notification = require("../models/notificationModel");
+const { HelpRequest, User, NGO, Notification } = require("../models/index");
+const { sequelize } = require("../config/db");
+
+/* ===============================================================
+   Haversine formula — returns distance in metres between two points
+   =============================================================== */
+const haversineSQL = (lat, lng, maxDistance) => `
+  (6371000 * ACOS(
+    COS(RADIANS(${lat})) * COS(RADIANS(latitude)) *
+    COS(RADIANS(longitude) - RADIANS(${lng})) +
+    SIN(RADIANS(${lat})) * SIN(RADIANS(latitude))
+  ))
+`;
 
 /* ================= CREATE HELP REQUEST ================= */
 const createHelpRequest = async (req, res) => {
   try {
     const { helpType, description, latitude, longitude, priority } = req.body;
 
-    /* ================= BASIC VALIDATION ================= */
     if (!helpType || !latitude || !longitude) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    /* ================= IMAGE VALIDATION ================= */
     if (!req.files || req.files.length < 1 || req.files.length > 4) {
-      return res.status(400).json({
-        message: "Minimum 1 and maximum 4 images allowed",
-      });
+      return res
+        .status(400)
+        .json({ message: "Minimum 1 and maximum 4 images allowed" });
     }
 
-    /* ================= ROLE CHECK ================= */
     if (req.user.role !== "user") {
-      return res.status(403).json({
-        message: "Only users can raise help requests",
-      });
+      return res
+        .status(403)
+        .json({ message: "Only users can raise help requests" });
     }
 
-    /* ================= USER FETCH ================= */
-    const user = await User.findById(req.user.id);
-
+    const user = await User.findByPk(req.user.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    /* ================= IMAGE MAP ================= */
-    const imageUrls = req.files.map((file) => {
-      return `uploads/${file.filename}`;
-    });
+    const imageUrls = req.files.map((file) => `uploads/${file.filename}`);
 
-    /* ================= CREATE HELP REQUEST ================= */
     const helpRequest = await HelpRequest.create({
-      createdBy: user._id,
+      createdById: user.id,
       username: user.username,
       helpType,
       description,
-      imageUrls,
-      location: {
-        type: "Point",
-        coordinates: [
-          parseFloat(longitude),
-          parseFloat(latitude),
-        ],
-      },
+      imageUrls, // setter handles JSON.stringify
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
       priority,
     });
 
-    /* ================= FIND NEARBY NGOS (HARD CODED 35KM) ================= */
-    const nearbyNGOs = await NGO.find({
-      isActive: true,
-      location: {
-        $near: {
-          $geometry: {
-            type: "Point",
-            coordinates: [
-              parseFloat(longitude),
-              parseFloat(latitude),
-            ],
-          },
-          $maxDistance: 35000, // 🔥 FIXED 35KM
-        },
-      },
-    });
+    /* ===== FIND NEARBY NGOs with Haversine (35km) ===== */
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
 
-    /* ================= CREATE NOTIFICATIONS ================= */
+    const nearbyNGOs = await sequelize.query(
+      `SELECT id FROM NGOs
+       WHERE isActive = true
+       AND ${haversineSQL(lat, lng)} <= 35000`,
+      { type: sequelize.QueryTypes.SELECT }
+    );
+
+    /* ===== CREATE NOTIFICATIONS ===== */
     for (const ngo of nearbyNGOs) {
       await Notification.create({
-        ngo: ngo._id,
-        helpRequest: helpRequest._id,
+        ngoId: ngo.id,
+        helpRequestId: helpRequest.id,
         message: `New ${helpType} request near your location`,
       });
     }
@@ -87,12 +76,9 @@ const createHelpRequest = async (req, res) => {
       notifiedNGOs: nearbyNGOs.length,
       helpRequest,
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = {
-  createHelpRequest,
-};
+module.exports = { createHelpRequest };

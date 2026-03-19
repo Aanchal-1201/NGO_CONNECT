@@ -1,20 +1,19 @@
-const Notification = require("../models/notificationModel");
-const NGO = require("../models/ngoModel");
+const { Notification, NGO, HelpRequest } = require("../models/index");
 
 /* ================= GET MY NOTIFICATIONS ================= */
 const getMyNotifications = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
 
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const notifications = await Notification.find({
-      ngo: ngo._id,
-    })
-      .populate("helpRequest")
-      .sort({ createdAt: -1 });
+    const notifications = await Notification.findAll({
+      where: { ngoId: ngo.id },
+      include: [{ model: HelpRequest, as: "helpRequest" }],
+      order: [["createdAt", "DESC"]],
+    });
 
     res.status(200).json(notifications);
   } catch (error) {
@@ -26,7 +25,7 @@ const getMyNotifications = async (req, res) => {
 /* ================= MARK AS READ ================= */
 const markAsRead = async (req, res) => {
   try {
-    const notification = await Notification.findById(req.params.id);
+    const notification = await Notification.findByPk(req.params.id);
 
     if (!notification) {
       return res.status(404).json({ message: "Notification not found" });
@@ -44,15 +43,14 @@ const markAsRead = async (req, res) => {
 /* ================= UNREAD COUNT ================= */
 const getUnreadCount = async (req, res) => {
   try {
-    const ngo = await NGO.findOne({ user: req.user.id });
+    const ngo = await NGO.findOne({ where: { userId: req.user.id } });
 
     if (!ngo) {
       return res.status(404).json({ message: "NGO profile not found" });
     }
 
-    const count = await Notification.countDocuments({
-      ngo: ngo._id,
-      isRead: false,
+    const count = await Notification.count({
+      where: { ngoId: ngo.id, isRead: false },
     });
 
     res.status(200).json({ count });
@@ -61,8 +59,4 @@ const getUnreadCount = async (req, res) => {
   }
 };
 
-module.exports = {
-  getMyNotifications,
-  markAsRead,
-  getUnreadCount,
-};
+module.exports = { getMyNotifications, markAsRead, getUnreadCount };
