@@ -2,20 +2,16 @@
 # NODE MODULES
 # ==============================
 node_modules/
-frontend/node_modules/
-Backend/node_modules/
 
 # ==============================
 # ENV FILES (IMPORTANT 🔥)
 # ==============================
 .env
-Backend/.env
-frontend/.env
 
 # ==============================
 # UPLOADS (User images)
 # ==============================
-Backend/uploads/
+uploads/
 
 # ==============================
 # LOG FILES

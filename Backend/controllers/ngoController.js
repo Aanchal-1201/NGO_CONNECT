@@ -6,9 +6,11 @@ const { sequelize } = require("../config/db");
    =============================================================== */
 const haversineExpr = (lat, lng) => `
   (6371000 * ACOS(
-    COS(RADIANS(${lat})) * COS(RADIANS(latitude)) *
-    COS(RADIANS(longitude) - RADIANS(${lng})) +
-    SIN(RADIANS(${lat})) * SIN(RADIANS(latitude))
+    GREATEST(-1.0, LEAST(1.0, 
+      COS(RADIANS(${lat})) * COS(RADIANS(latitude)) *
+      COS(RADIANS(longitude) - RADIANS(${lng})) +
+      SIN(RADIANS(${lat})) * SIN(RADIANS(latitude))
+    ))
   ))
 `;
 
@@ -80,13 +82,32 @@ const createNGO = async (req, res) => {
   }
 };
 
+/* ================= HAversine JS Function ================= */
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371e3; // metres
+  const phi1 = (lat1 * Math.PI) / 180;
+  const phi2 = (lat2 * Math.PI) / 180;
+  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+    Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+};
+
+const axios = require("axios");
+
 /* ================= GET NEARBY NGOS ================= */
 const getNearbyNGOs = async (req, res) => {
   try {
-    const { lat, lng } = req.query;
-    
-    if (!lat || !lng) {
-      return res.status(400).json({ message: "Latitude and longitude required" });
+    const lat = parseFloat(req.query.lat);
+    const lng = parseFloat(req.query.lng);
+
+    if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
+      return res.status(400).json({ message: "Valid latitude and longitude required" });
     }
 
     const maxDistanceMeters = 35000; // 35km radius

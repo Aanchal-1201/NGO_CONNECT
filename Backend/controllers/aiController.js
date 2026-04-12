@@ -1,6 +1,6 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Groq = require("groq-sdk");
 
-const getGenAI = () => new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 /* ================================================================
    FEATURE 1 — Analyze help request description
@@ -14,8 +14,6 @@ const analyzeRequest = async (req, res) => {
       return res.status(400).json({ message: "Description too short" });
     }
 
-    const model = getGenAI().getGenerativeModel({ model: "gemini-2.5-flash" });
-
     const prompt = `You are an AI assistant for an NGO emergency help request platform.
 Analyze the following description and respond with ONLY a raw JSON object (no markdown, no code blocks).
 
@@ -28,11 +26,14 @@ Respond with exactly this structure:
   "reason": "one-line explanation"
 }`;
 
-    const result = await model.generateContent(prompt);
-    let text = result.response.text().trim();
+    const completion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.1,
+      response_format: { type: "json_object" },
+    });
 
-    // Strip markdown code block if present
-    text = text.replace(/```json|```/g, "").trim();
+    let text = completion.choices[0]?.message?.content || "{}";
 
     const parsed = JSON.parse(text);
     res.status(200).json(parsed);
@@ -62,6 +63,9 @@ const verifyImage = async (req, res) => {
       return res.status(400).json({ message: "imageBase64 and helpType required" });
     }
 
+    // fallback to use Gemini for Vision since Groq deprecated their models temporarily
+    const { GoogleGenerativeAI } = require("@google/generative-ai");
+    const getGenAI = () => new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = getGenAI().getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `You are reviewing an image submitted for an emergency help request of type: "${helpType}".
@@ -72,11 +76,17 @@ Respond with ONLY a raw JSON object (no markdown, no code blocks):
   "reason": "one-line explanation"
 }`;
 
+    // Remove data uri prefix if it exists to pass pure base64 to Gemini
+    let base64Data = imageBase64;
+    if (imageBase64.startsWith('data:')) {
+        base64Data = imageBase64.split(',')[1];
+    }
+
     const result = await model.generateContent([
       prompt,
       {
         inlineData: {
-          data: imageBase64,
+          data: base64Data,
           mimeType: mimeType || "image/jpeg",
         },
       },
@@ -109,8 +119,6 @@ const chatWithAI = async (req, res) => {
       return res.status(400).json({ message: "Message required" });
     }
 
-    const model = getGenAI().getGenerativeModel({ model: "gemini-2.5-flash" });
-
     const roleContext =
       role === "ngo"
         ? "You are helping an NGO representative who manages help requests, views notifications, and accepts or completes requests."
@@ -130,8 +138,13 @@ Keep responses concise (max 3 sentences), helpful, and warm. Use 1-2 emojis max.
 
 User message: "${message}"`;
 
-    const result = await model.generateContent(prompt);
-    const reply = result.response.text();
+    const completion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+    });
+
+    const reply = completion.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
 
     res.status(200).json({ reply });
   } catch (error) {

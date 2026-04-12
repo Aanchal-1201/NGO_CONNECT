@@ -4,7 +4,7 @@ const { User, NGO, HelpRequest } = require("../models/index");
 const getDashboardStats = async (req, res) => {
   try {
     const totalUsers = await User.count({ where: { role: "user" } });
-    const totalNGOs = await User.count({ where: { role: "ngo" } });
+    const totalNGOs = await NGO.count();
     const totalHelpRequests = await HelpRequest.count();
     const pendingRequests = await HelpRequest.count({
       where: { status: "pending" },

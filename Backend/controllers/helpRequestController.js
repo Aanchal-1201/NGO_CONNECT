@@ -4,11 +4,13 @@ const { sequelize } = require("../config/db");
 /* ===============================================================
    Haversine formula — returns distance in metres between two points
    =============================================================== */
-const haversineSQL = (lat, lng, maxDistance) => `
+const haversineSQL = (lat, lng) => `
   (6371000 * ACOS(
-    COS(RADIANS(${lat})) * COS(RADIANS(latitude)) *
-    COS(RADIANS(longitude) - RADIANS(${lng})) +
-    SIN(RADIANS(${lat})) * SIN(RADIANS(latitude))
+    GREATEST(-1.0, LEAST(1.0, 
+      COS(RADIANS(${lat})) * COS(RADIANS(latitude)) *
+      COS(RADIANS(longitude) - RADIANS(${lng})) +
+      SIN(RADIANS(${lat})) * SIN(RADIANS(latitude))
+    ))
   ))
 `;
 
@@ -35,6 +37,8 @@ const createHelpRequest = async (req, res) => {
 
     const user = await User.findByPk(req.user.id);
     if (!user) {
+      console.error("404 ERROR TRACE: req.user =", req.user);
+      console.error("Database query for User.findByPk returned null. Checked ID =", req.user.id);
       return res.status(404).json({ message: "User not found" });
     }
 

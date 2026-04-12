@@ -22,7 +22,8 @@ const PORT = process.env.PORT || 5000;
 
 // Middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
@@ -44,9 +45,9 @@ app.get("/", (req, res) => {
 const start = async () => {
   await connectDB();
   // alter:true safely updates tables if models change; use force:true to drop & recreate
-  await sequelize.sync({ alter: true });
+  await sequelize.sync();
   console.log("✅ All tables synced");
-  app.listen(PORT, () => {
+  app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Server running on port ${PORT}`);
   });
 };

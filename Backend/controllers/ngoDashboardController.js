@@ -6,9 +6,11 @@ const { sequelize } = require("../config/db");
    =============================================================== */
 const haversineExpr = (ngoLat, ngoLng) => `
   (6371000 * ACOS(
-    COS(RADIANS(${ngoLat})) * COS(RADIANS(hr.latitude)) *
-    COS(RADIANS(hr.longitude) - RADIANS(${ngoLng})) +
-    SIN(RADIANS(${ngoLat})) * SIN(RADIANS(hr.latitude))
+    GREATEST(-1.0, LEAST(1.0, 
+      COS(RADIANS(${ngoLat})) * COS(RADIANS(hr.latitude)) *
+      COS(RADIANS(hr.longitude) - RADIANS(${ngoLng})) +
+      SIN(RADIANS(${ngoLat})) * SIN(RADIANS(hr.latitude))
+    ))
   ))
 `;
 
