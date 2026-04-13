@@ -2,14 +2,14 @@
 .ngo-layout {
   display: flex;
   min-height: 100vh;
-  background: #f4f6f9;
+  background: var(--bg-primary);
 }
 
 /* Sidebar */
 .ngo-sidebar {
   width: 250px;
   min-width: 250px;
-  background: #ffffff;
+  background: var(--bg-secondary);
   padding: 30px 20px;
   border-right: 1px solid #eaeaea;
 }
@@ -37,7 +37,7 @@
 }
 
 .ngo-stat-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 25px;
   border-radius: 16px;
   flex: 1;
@@ -58,7 +58,7 @@
 
 /* Request Cards */
 .request-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 25px;
   border-radius: 16px;
   margin-bottom: 20px;
@@ -100,14 +100,14 @@
 
 /* Activity Panel */
 .activity-panel {
-  background: white;
+  background: var(--bg-secondary);
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 
 .empty-state {
-  color: #888;
+  color: var(--text-muted);
   margin-top: 20px;
 }
 

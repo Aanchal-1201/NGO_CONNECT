@@ -1,7 +1,7 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background: #f4f6f9;
+  background: var(--bg-primary);
 }
 
 .admin-content {
@@ -18,23 +18,25 @@
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 25px;
   border-radius: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-sm);
   transition: 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
 }
 
 .stat-card h6 {
   font-size: 14px;
-  color: #777;
+  color: var(--text-muted);
   margin-bottom: 8px;
 }
 
@@ -42,6 +44,7 @@
   font-size: 28px;
   font-weight: 700;
   margin: 0;
+  color: var(--text-primary);
 }
 
 .stat-card i {
@@ -49,23 +52,25 @@
   opacity: 0.8;
 }
 
-/* Card Colors */
-.blue i { color: #0d6efd; }
-.purple i { color: #6f42c1; }
-.orange i { color: #fd7e14; }
-.green i { color: #198754; }
+/* Card Colors - maintaining vibrant icons */
+.blue i { color: #3b82f6; }
+.purple i { color: #8b5cf6; }
+.orange i { color: #f59e0b; }
+.green i { color: #10b981; }
 
 /* ================= TABLE CARD ================= */
 .table-card {
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 18px;
   padding: 25px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
 }
 
 .table-card h5 {
   font-weight: 700;
   margin-bottom: 20px;
+  color: var(--text-primary);
 }
 
 /* ================= MODERN TABLE ================= */
@@ -75,7 +80,7 @@
 }
 
 .modern-table thead {
-  background: #f8f9fa;
+  background: var(--bg-tertiary);
 }
 
 .modern-table th {
@@ -83,17 +88,19 @@
   text-align: left;
   font-size: 14px;
   font-weight: 600;
-  color: #444;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modern-table td {
   padding: 14px;
   font-size: 14px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 .modern-table tbody tr:hover {
-  background: #f9fbff;
+  background: var(--bg-tertiary);
   transition: 0.2s;
 }
 
@@ -106,13 +113,13 @@
 }
 
 .status-badge.active {
-  background: #e6f4ea;
-  color: #198754;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
 }
 
 .status-badge.inactive {
-  background: #fdecea;
-  color: #dc3545;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
 }
 
 /* ================= BUTTON ================= */
@@ -122,22 +129,23 @@
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  background: #0d6efd;
+  background: var(--accent-primary);
   color: white;
   transition: 0.3s ease;
 }
 
 .toggle-btn:hover {
-  background: #084298;
+  background: var(--accent-primary-hover);
 }
 
 /* ================= EMPTY STATE ================= */
 .empty-state {
   text-align: center;
   padding: 20px;
-  color: #777;
+  color: var(--text-muted);
 }
 
+/* ================= ADMIN MODAL ================= */
 .admin-modal-overlay {
   position: fixed;
   inset: 0;
@@ -149,18 +157,26 @@
 }
 
 .admin-modal {
-  background: white;
+  background: var(--bg-secondary);
   width: 400px;
   padding: 30px;
   border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.admin-modal h4 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
 }
 
 .admin-modal input {
   width: 100%;
   margin-bottom: 15px;
-  padding: 8px 10px;
+  padding: 10px;
   border-radius: 6px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .modal-actions {
@@ -169,17 +185,19 @@
 }
 
 .modal-create-btn {
-  background: #198754;
+  background: var(--success);
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
+  font-weight: 500;
 }
 
 .modal-cancel-btn {
-  background: #dc3545;
+  background: var(--danger);
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
+  font-weight: 500;
 }

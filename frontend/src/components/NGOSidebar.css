@@ -4,7 +4,7 @@
   width: 260px;
   min-width: 260px;
   height: 100vh;
-  background: #ffffff;
+  background: var(--bg-secondary);
   padding: 30px 20px;
   border-right: 1px solid #eaeaea;
   position: sticky;
@@ -34,7 +34,7 @@
 
 .ngo-logo span {
   font-size: 13px;
-  color: #888;
+  color: var(--text-muted);
 }
 
 /* ===== NAVIGATION ===== */
@@ -53,7 +53,7 @@
   border-radius: 10px;
   text-decoration: none;
   font-weight: 500;
-  color: #444;
+  color: var(--text-primary);
   transition: all 0.2s ease;
   font-size: 14px;
 }

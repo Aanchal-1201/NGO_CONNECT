@@ -165,3 +165,34 @@ a:hover {
   background: var(--bg-secondary);
   border-color: var(--text-muted);
 }
+
+/* ================= MODERN TABLE (GLOBAL) ================= */
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modern-table thead {
+  background: var(--bg-tertiary);
+}
+
+.modern-table th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modern-table td {
+  padding: 14px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.modern-table tbody tr:hover {
+  background: var(--bg-tertiary);
+  transition: 0.2s;
+}

@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
 
           {/* PLATFORM */}
-          <div className="col-lg-3 col-md-6 footer-col">
+          {/* <div className="col-lg-3 col-md-6 footer-col">
             <h6
               className="footer-title"
               onClick={() => toggleSection("platform")}
@@ -45,10 +45,10 @@ export default function Footer() {
               <li>Success Stories</li>
               <li>Safety & Security</li>
             </ul>
-          </div>
+          </div> */}
 
           {/* COMPANY */}
-          <div className="col-lg-3 col-md-6 footer-col">
+          {/* <div className="col-lg-3 col-md-6 footer-col">
             <h6
               className="footer-title"
               onClick={() => toggleSection("company")}
@@ -67,11 +67,11 @@ export default function Footer() {
               <li>Press Kit</li>
               <li>Contact</li>
             </ul>
-          </div>
+          </div> */}
 
           {/* NEWSLETTER */}
           {/* NEWSLETTER */}
-          <div className="col-lg-3 col-md-6 footer-col">
+          {/* <div className="col-lg-3 col-md-6 footer-col">
             <h6 className="footer-title static-title">Newsletter</h6>
 
             <div className="newsletter-box show">
@@ -89,7 +89,7 @@ export default function Footer() {
                 Subscribe
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* BOTTOM SECTION */}

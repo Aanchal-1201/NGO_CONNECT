@@ -1,7 +1,7 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background: #f4f6f9;
+  background: var(--bg-primary);
 }
 
 .admin-content {
@@ -10,7 +10,7 @@
 }
 
 .requests-card {
-  background: #ffffff;
+  background: var(--bg-secondary);
   border-radius: 14px;
   padding: 25px;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
@@ -26,7 +26,7 @@
 .requests-table td {
   padding: 12px;
   font-size: 14px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .requests-table tbody tr:hover {
@@ -84,7 +84,7 @@
 /* Coordinates */
 .coords {
   font-size: 12px;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 /* Thumbnail */
@@ -100,7 +100,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
 }
 
 .image-count {
@@ -163,5 +163,5 @@
 .empty-state {
   text-align: center;
   padding: 20px;
-  color: #777;
+  color: var(--text-muted);
 }

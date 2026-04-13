@@ -35,7 +35,7 @@ export default function AdminUsers() {
         <div className="users-card">
           <h5>All Users</h5>
 
-          <table className="users-table">
+          <table className="modern-table">
             <thead>
               <tr>
                 <th>#</th>
@@ -49,7 +49,7 @@ export default function AdminUsers() {
             <tbody>
               {users.length > 0 ? (
                 users.map((user, index) => (
-                  <tr key={user._id}>
+                  <tr key={user.id}>
                     <td>{index + 1}</td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>

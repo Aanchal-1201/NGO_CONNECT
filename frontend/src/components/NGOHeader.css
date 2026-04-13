@@ -17,7 +17,7 @@
 
 .header-left p {
   margin: 5px 0 0;
-  color: #777;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
@@ -33,7 +33,7 @@
 .search-wrapper {
   display: flex;
   align-items: center;
-  background: white;
+  background: var(--bg-secondary);
   padding: 8px 14px;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -51,6 +51,8 @@
   outline: none;
   font-size: 14px;
   width: 180px;
+  background: transparent;
+  color: var(--text-primary);
 }
 
 .search-wrapper:focus-within {

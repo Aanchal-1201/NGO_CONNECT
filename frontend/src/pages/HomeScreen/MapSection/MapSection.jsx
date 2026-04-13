@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { Geolocation } from '@capacitor/geolocation';
 import "./MapSection.css";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -12,8 +13,9 @@ export default function MapSection() {
   useEffect(() => {
     if (map.current) return;
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    const setupMapLocation = async () => {
+      try {
+        const position = await Geolocation.getCurrentPosition();
         const { latitude, longitude } = position.coords;
 
         map.current = new mapboxgl.Map({
@@ -26,11 +28,12 @@ export default function MapSection() {
         new mapboxgl.Marker()
           .setLngLat([longitude, latitude])
           .addTo(map.current);
-      },
-      (error) => {
+      } catch (error) {
         console.error("Location access denied:", error);
-      },
-    );
+      }
+    };
+    
+    setupMapLocation();
   }, []);
 
   return (

@@ -54,11 +54,11 @@ export default function NGONotifications() {
 
           {notifications.map((noti) => (
             <div
-              key={noti._id}
+              key={noti.id}
               className={`notification-card ${
                 noti.isRead ? "read" : "unread"
               }`}
-              onClick={() => markAsRead(noti._id)}
+              onClick={() => markAsRead(noti.id)}
             >
               <div>
                 <h6>{noti.message}</h6>

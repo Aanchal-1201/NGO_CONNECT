@@ -80,7 +80,7 @@ export default function NGONearbyRequests() {
           ) : (
             <div className="request-grid">
               {requests.map((req) => (
-                <div key={req._id} className="nearby-card">
+                <div key={req.id} className="nearby-card">
                   {/* 🔥 SHOW ONLY FIRST IMAGE */}
                   <div
                     className="image-wrapper"
@@ -112,7 +112,7 @@ export default function NGONearbyRequests() {
 
                     <button
                       className="accept-btn"
-                      onClick={() => acceptRequest(req._id)}
+                      onClick={() => acceptRequest(req.id)}
                     >
                       Accept
                     </button>

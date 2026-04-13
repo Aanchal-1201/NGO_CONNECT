@@ -1,6 +1,6 @@
 .admin-layout {
   display: flex;
-  background: #f4f6f9;
+  background: var(--bg-primary);
   min-height: 100vh;
 }
 
@@ -11,7 +11,7 @@
 
 /* TABLE CARD */
 .table-card {
-  background: #ffffff;
+  background: var(--bg-secondary);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);

@@ -70,7 +70,7 @@ export default function Navbar() {
           ref={collapseRef}
         >
 
-          <ul className="navbar-nav mx-auto text-center">
+          <ul className="navbar-nav mx-auto text-start text-lg-center">
             <li className="nav-item">
               <Link
                 className={`nav-link ${isActive("/#how-it-works") ? "active" : ""}`}
@@ -125,7 +125,7 @@ export default function Navbar() {
             )}
           </ul>
 
-          <ul className="navbar-nav ms-auto align-items-lg-center text-center">
+          <ul className="navbar-nav ms-auto align-items-lg-center text-start text-lg-center">
             {!user ? (
               <li className="nav-item">
                 <button
@@ -141,7 +141,7 @@ export default function Navbar() {
             ) : (
               <li className="nav-item dropdown profile-dropdown">
                 <a
-                  className="nav-link dropdown-toggle d-flex align-items-center justify-content-center"
+                  className="nav-link dropdown-toggle d-flex align-items-center justify-content-start justify-content-lg-center"
                   href="/#"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -155,7 +155,7 @@ export default function Navbar() {
                 </a>
 
                 <ul className="dropdown-menu dropdown-menu-end">
-                  <li className="dropdown-item-text fw-bold text-center">
+                  <li className="dropdown-item-text fw-bold text-start text-lg-center mt-2 mt-lg-0">
                     {user.username}
                   </li>
 
@@ -163,7 +163,7 @@ export default function Navbar() {
 
                   <li>
                     <button
-                      className="dropdown-item text-danger text-center"
+                      className="dropdown-item text-danger text-start text-lg-center"
                       onClick={handleLogout}
                     >
                       <i className="fa-solid fa-right-from-bracket me-2"></i>
@@ -174,7 +174,7 @@ export default function Navbar() {
               </li>
             )}
             
-            <li className="nav-item d-flex align-items-center justify-content-center">
+            <li className="nav-item d-flex align-items-center justify-content-start justify-content-lg-center mt-3 mt-lg-0">
               <ThemeToggle />
             </li>
           </ul>

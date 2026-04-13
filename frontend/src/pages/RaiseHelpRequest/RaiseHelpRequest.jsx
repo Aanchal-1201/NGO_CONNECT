@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "./RaiseHelpRequest.css";
+import { Geolocation } from '@capacitor/geolocation';
 import BASE_URL from "../../config";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -28,26 +29,33 @@ export default function RaiseHelpRequest() {
 
   /* ================= LOCATION + MAP ================= */
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      setLocation({ latitude, longitude });
+    const setupHelpLocation = async () => {
+      try {
+        const pos = await Geolocation.getCurrentPosition();
+        const { latitude, longitude } = pos.coords;
+        setLocation({ latitude, longitude });
 
-      mapRef.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v11",
-        center: [longitude, latitude],
-        zoom: 14,
-      });
+        mapRef.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: "mapbox://styles/mapbox/streets-v11",
+          center: [longitude, latitude],
+          zoom: 14,
+        });
 
-      markerRef.current = new mapboxgl.Marker({ draggable: true })
-        .setLngLat([longitude, latitude])
-        .addTo(mapRef.current);
+        markerRef.current = new mapboxgl.Marker({ draggable: true })
+          .setLngLat([longitude, latitude])
+          .addTo(mapRef.current);
 
-      markerRef.current.on("dragend", () => {
-        const lngLat = markerRef.current.getLngLat();
-        setLocation({ latitude: lngLat.lat, longitude: lngLat.lng });
-      });
-    });
+        markerRef.current.on("dragend", () => {
+          const lngLat = markerRef.current.getLngLat();
+          setLocation({ latitude: lngLat.lat, longitude: lngLat.lng });
+        });
+      } catch (err) {
+        console.error("Location error", err);
+      }
+    };
+    
+    setupHelpLocation();
   }, []);
 
   /* ================= AI: ANALYZE DESCRIPTION (debounced 800ms) ================= */

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
+import { Geolocation } from '@capacitor/geolocation';
 import BASE_URL from "../../config";
 import "./ExploreNGOs.css";
 
@@ -18,19 +19,21 @@ export default function ExploreNGOs() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // 1. Get user location
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
+    // 1. Get user location natively via Capacitor
+    const setupLocation = async () => {
+      try {
+        const coordinates = await Geolocation.getCurrentPosition();
+        const { latitude, longitude } = coordinates.coords;
         setUserLocation({ latitude, longitude });
         fetchNearbyNGOs(latitude, longitude);
-      },
-      (err) => {
+      } catch (err) {
         console.error("Geolocation error:", err);
         alert("Please allow location access to find nearby NGOs.");
         setLoading(false);
       }
-    );
+    };
+    
+    setupLocation();
   }, []);
 
   const fetchNearbyNGOs = async (lat, lng) => {

@@ -122,7 +122,7 @@ const fetchRequests = async () => {
             )}
 
             {requests.map((req) => (
-              <div key={req._id} className="request-card">
+              <div key={req.id} className="request-card">
                 <span className={`priority ${req.priority}`}>
                   {req.priority.toUpperCase()} PRIORITY
                 </span>
@@ -132,7 +132,7 @@ const fetchRequests = async () => {
 
                 <button
                   className="accept-btn"
-                  onClick={() => acceptRequest(req._id)}
+                  onClick={() => acceptRequest(req.id)}
                 >
                   Accept Request
                 </button>

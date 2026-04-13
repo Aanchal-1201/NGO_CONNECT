@@ -61,7 +61,7 @@ export default function AdminHelpRequests() {
         <div className="requests-card">
           <h5>All Help Requests</h5>
 
-          <table className="requests-table">
+          <table className="modern-table">
             <thead>
               <tr>
                 <th>#</th>
@@ -78,7 +78,7 @@ export default function AdminHelpRequests() {
             <tbody>
               {requests.length > 0 ? (
                 requests.map((req, index) => (
-                  <tr key={req._id}>
+                  <tr key={req.id}>
                     <td>{index + 1}</td>
 
                     <td>{req.createdBy?.username}</td>

@@ -53,7 +53,7 @@ export default function AdminNGOs() {
         <AdminHeader title="NGO Management" />
 
         <div className="table-card">
-          <table className="table table-hover">
+          <table className="modern-table">
             <thead>
               <tr>
                 <th>#</th>
@@ -75,7 +75,7 @@ export default function AdminNGOs() {
                 </tr>
               ) : (
                 ngos.map((ngo, index) => (
-                  <tr key={ngo._id}>
+                  <tr key={ngo.id}>
                     <td>{index + 1}</td>
                     <td>{ngo.name}</td>
                     <td>{ngo.email}</td>
@@ -95,7 +95,7 @@ export default function AdminNGOs() {
                     <td>
                       <button
                         className="btn btn-sm toggle-btn"
-                        onClick={() => toggleStatus(ngo._id)}
+                        onClick={() => toggleStatus(ngo.id)}
                       >
                         {ngo.isActive ? "Deactivate" : "Activate"}
                       </button>

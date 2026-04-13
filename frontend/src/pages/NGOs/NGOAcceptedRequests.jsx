@@ -77,7 +77,7 @@ export default function NGOAcceptedRequests() {
           ) : (
             <div className="accepted-grid">
               {requests.map((req) => (
-                <div key={req._id} className="accepted-card">
+                <div key={req.id} className="accepted-card">
 
                   {/* IMAGE */}
                   <div
@@ -100,7 +100,7 @@ export default function NGOAcceptedRequests() {
 
                     <button
                       className="complete-btn"
-                      onClick={() => completeRequest(req._id)}
+                      onClick={() => completeRequest(req.id)}
                     >
                       Mark as Completed
                     </button>

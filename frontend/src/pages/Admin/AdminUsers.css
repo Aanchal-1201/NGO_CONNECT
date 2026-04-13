@@ -2,7 +2,7 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background: #f4f6f9;
+  background: var(--bg-primary);
 }
 
 .admin-content {
@@ -12,7 +12,7 @@
 
 /* Card */
 .users-card {
-  background: #ffffff;
+  background: var(--bg-secondary);
   border-radius: 14px;
   padding: 25px;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
@@ -32,15 +32,15 @@
 }
 
 .users-table thead {
-  background: #f8f9fa;
+  background: var(--bg-tertiary);
 }
 
 .users-table th {
   font-size: 14px;
   font-weight: 600;
   padding: 12px;
-  color: #444;
-  border-bottom: 1px solid #eee;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .users-table td {
@@ -83,7 +83,7 @@
 .empty-state {
   text-align: center;
   padding: 20px;
-  color: #777;
+  color: var(--text-muted);
 }
 
 /* Responsive */

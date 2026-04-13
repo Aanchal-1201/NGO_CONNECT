@@ -173,7 +173,7 @@ export default function AdminDashboard() {
 
             <tbody>
               {ngos.map((ngo) => (
-                <tr key={ngo._id}>
+                <tr key={ngo.id}>
                   <td>{ngo.name}</td>
                   <td>{ngo.user?.email}</td>
                   <td>{ngo.city}</td>
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
                   <td>
                     <button
                       className="toggle-btn"
-                      onClick={() => toggleStatus(ngo._id)}
+                      onClick={() => toggleStatus(ngo.id)}
                     >
                       {ngo.isActive ? "Deactivate" : "Activate"}
                     </button>

@@ -243,7 +243,7 @@
 }
 
 .ai-chat-input::placeholder {
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .ai-send-btn {

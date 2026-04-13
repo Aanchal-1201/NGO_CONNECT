@@ -1,0 +1,13 @@
+{
+  "appId": "com.ngoconnect.app",
+  "appName": "NGOConnect",
+  "webDir": "dist",
+  "server": {
+    "cleartext": true
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

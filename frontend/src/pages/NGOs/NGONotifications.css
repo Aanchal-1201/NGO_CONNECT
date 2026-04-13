@@ -1,5 +1,5 @@
 .notification-container {
-  background: white;
+  background: var(--bg-secondary);
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -17,12 +17,12 @@
 }
 
 .notification-card.unread {
-  background: #eef4ff;
-  border-left: 4px solid #0d6efd;
+  background: rgba(var(--accent-primary-rgb), 0.1);
+  border-left: 4px solid var(--accent-primary);
 }
 
 .notification-card.read {
-  background: #f9f9f9;
+  background: var(--bg-tertiary);
 }
 
 .notification-card:hover {

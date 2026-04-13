@@ -30,7 +30,7 @@
   padding: 6px 14px;
   border-radius: 20px;
   border: 1px solid #ddd;
-  background: white;
+  background: var(--bg-secondary);
   font-size: 12px;
   cursor: pointer;
   transition: 0.2s;
@@ -51,7 +51,7 @@
 
 /* CARD */
 .nearby-card {
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
@@ -163,7 +163,7 @@
   margin-right: 6px;
   padding: 6px 12px;
   border: 1px solid #ddd;
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 6px;
   cursor: pointer;
 }
@@ -182,7 +182,7 @@
 }
 /* CARD */
 .nearby-card {
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
@@ -281,7 +281,7 @@
   position: absolute;
   top: 55px !important;
   right: 35px !important;
-  background: white;
+  background: var(--bg-secondary);
   border: none;
   width: 38px;
   height: 38px;
@@ -332,7 +332,7 @@
   position: absolute;
   top: -45px;
   right: 0;
-  background: white;
+  background: var(--bg-secondary);
   border: none;
   font-size: 18px;
   padding: 8px 12px;
