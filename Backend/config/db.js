@@ -6,18 +6,21 @@ const sequelize = new Sequelize(
   process.env.DB_PASS,
   {
     host: process.env.DB_HOST,
-    port: 3306,
-    dialect: "mysql",
+    port: process.env.DB_PORT || 5432,
+    dialect: "postgres",
     logging: false,
     dialectOptions: {
-      connectTimeout: 60000, // 60 seconds timeout
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // Required for some Render/Postgres setups
+      },
     },
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000
-    }
+      idle: 10000,
+    },
   }
 );
 
